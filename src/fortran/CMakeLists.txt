@@ -1,0 +1,5 @@
+add_executable(burgers_dynamic_fortran src/burgers_dynamic.F90)
+
+target_link_libraries(burgers_dynamic_fortran PRIVATE opencmisslibs mpi)
+
+install(TARGETS burgers_dynamic_fortran DESTINATION bin)
