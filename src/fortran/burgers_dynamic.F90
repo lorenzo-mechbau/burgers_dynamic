@@ -1,4 +1,4 @@
-PROGRAM DynamicBurgersExample
+PROGRAM burgers_dynamic
 
   USE OpenCMISS
   USE OpenCMISS_Iron
@@ -6,9 +6,7 @@ PROGRAM DynamicBurgersExample
 #ifndef NOMPIMOD
   USE MPI
 #endif
-
   IMPLICIT NONE
-
 #ifdef NOMPIMOD
 #include "mpif.h"
 #endif
@@ -18,7 +16,6 @@ PROGRAM DynamicBurgersExample
   !-----------------------------------------------------------------------------------------------------------
 
   !Test program parameters
-
   INTEGER(CMISSIntg), PARAMETER :: CoordinateSystemUserNumber=1
   INTEGER(CMISSIntg), PARAMETER :: RegionUserNumber=2
   INTEGER(CMISSIntg), PARAMETER :: BasisUserNumber=3
@@ -36,7 +33,6 @@ PROGRAM DynamicBurgersExample
   INTEGER(CMISSIntg), PARAMETER :: SolverUserNumber=1
 
   !Program variables
-
   INTEGER(CMISSIntg) :: NUMBER_GLOBAL_X_ELEMENTS
   INTEGER(CMISSIntg) :: NUMBER_OF_DOMAINS
   INTEGER(CMISSIntg) :: COMPONENT_NUMBER
@@ -66,7 +62,6 @@ PROGRAM DynamicBurgersExample
   INTEGER(CMISSIntg) :: FirstNodeNumber,LastNodeNumber,FirstNodeDomain,LastNodeDomain
 
   !Program types
-
   TYPE(cmfe_BasisType) :: Basis
   TYPE(cmfe_BoundaryConditionsType) :: BoundaryConditions
   TYPE(cmfe_CoordinateSystemType) :: CoordinateSystem,WorldCoordinateSystem
@@ -83,7 +78,6 @@ PROGRAM DynamicBurgersExample
   TYPE(cmfe_RegionType) :: Region,WorldRegion
   TYPE(cmfe_SolverType) :: DynamicSolver,NonlinearSolver,LinearSolver
   TYPE(cmfe_SolverEquationsType) :: SolverEquations
-
   LOGICAL :: EXPORT_FIELD
 
   !Generic CMISS variables
@@ -133,7 +127,6 @@ PROGRAM DynamicBurgersExample
   MAXIMUM_ITERATIONS=100000 !default: 100000
   RESTART_VALUE=3000 !default: 30
   LINESEARCH_ALPHA=1.0
-
 
   !Set all diganostic levels on for testing
   CALL MPI_BCAST(NUMBER_GLOBAL_X_ELEMENTS,1,MPI_INTEGER,0,MPI_COMM_WORLD,MPI_IERROR)
@@ -275,8 +268,8 @@ PROGRAM DynamicBurgersExample
 
   !Create the equations set analytic field variables
   !CALL cmfe_Field_Initialise(AnalyticField,Err)
-  !CALL cmfe_EquationsSet_AnalyticCreateStart(EquationsSet,CMFE_EQUATIONS_SET_BURGERS_EQUATION_ONE_DIM_1,AnalyticFieldUserNumber, &
-  ! & AnalyticField,Err)
+  !CALL cmfe_EquationsSet_AnalyticCreateStart(EquationsSet,CMFE_EQUATIONS_SET_BURGERS_EQUATION_ONE_DIM_1, &
+  ! & AnalyticFieldUserNumber,AnalyticField,Err)
   !Finish the equations set analytic field variables
   !CALL cmfe_EquationsSet_AnalyticCreateFinish(EquationsSet,Err)
 
@@ -354,7 +347,6 @@ PROGRAM DynamicBurgersExample
   !Set the output type
   CALL cmfe_Solver_OutputTypeSet(LinearSolver,LINEAR_SOLVER_OUTPUT_TYPE,Err)
   !Set the solver settings
-
   IF(LINEAR_SOLVER_DIRECT_FLAG) THEN
     CALL cmfe_Solver_LinearTypeSet(LinearSolver,CMFE_SOLVER_LINEAR_DIRECT_SOLVE_TYPE,Err)
     CALL cmfe_Solver_LibraryTypeSet(LinearSolver,CMFE_SOLVER_MUMPS_LIBRARY,Err)
@@ -434,12 +426,12 @@ PROGRAM DynamicBurgersExample
   IF(EXPORT_FIELD) THEN
     CALL cmfe_Fields_Initialise(Fields,Err)
     CALL cmfe_Fields_Create(Region,Fields,Err)
-    CALL cmfe_Fields_NodesExport(Fields,"DynamicBurgers","FORTRAN",Err)
-    CALL cmfe_Fields_ElementsExport(Fields,"DynamicBurgers","FORTRAN",Err)
+    CALL cmfe_Fields_NodesExport(Fields,"burgers_dynamic","FORTRAN",Err)
+    CALL cmfe_Fields_ElementsExport(Fields,"burgers_dynamic","FORTRAN",Err)
     CALL cmfe_Fields_Finalise(Fields,Err)
   ENDIF
 
   CALL cmfe_Finalise(Err)
   WRITE(*,'(A)') "Program successfully completed."
 
-END PROGRAM DynamicBurgersExample
+END PROGRAM burgers_dynamic
