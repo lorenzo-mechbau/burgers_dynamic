@@ -107,6 +107,7 @@ PROGRAM burgers_dynamic
 
   !Set output parameters
   !(NoOutput/ProgressOutput/TimingOutput/SolverOutput/SolverMatrixOutput)
+  DYNAMIC_SOLVER_OUTPUT_FREQUENCY=1
   DYNAMIC_SOLVER_OUTPUT_TYPE=CMFE_SOLVER_NO_OUTPUT
   NONLINEAR_SOLVER_OUTPUT_TYPE=CMFE_SOLVER_NO_OUTPUT
   LINEAR_SOLVER_OUTPUT_TYPE=CMFE_SOLVER_NO_OUTPUT
@@ -397,13 +398,11 @@ PROGRAM burgers_dynamic
   CALL cmfe_Decomposition_NodeDomainGet(Decomposition,LastNodeNumber,1,LastNodeDomain,Err)
   IF(FirstNodeDomain==ComputationalNodeNumber) THEN
     CALL cmfe_BoundaryConditions_SetNode(BoundaryConditions,DependentField,CMFE_FIELD_U_VARIABLE_TYPE,1, &
-      & CMFE_NO_GLOBAL_DERIV,FirstNodeNumber,COMPONENT_NUMBER,CMFE_BOUNDARY_CONDITION_FIXED, &
-      & 1.0_CMISSRP,Err)
+      & CMFE_NO_GLOBAL_DERIV,FirstNodeNumber,COMPONENT_NUMBER,CMFE_BOUNDARY_CONDITION_FIXED,1.0_CMISSRP,Err)
   ENDIF
   IF(LastNodeDomain==ComputationalNodeNumber) THEN
     CALL cmfe_BoundaryConditions_SetNode(BoundaryConditions,DependentField,CMFE_FIELD_U_VARIABLE_TYPE,1, &
-      & CMFE_NO_GLOBAL_DERIV,LastNodeNumber,COMPONENT_NUMBER,CMFE_BOUNDARY_CONDITION_FIXED, &
-      & 0.0_CMISSRP,Err)
+      & CMFE_NO_GLOBAL_DERIV,LastNodeNumber,COMPONENT_NUMBER,CMFE_BOUNDARY_CONDITION_FIXED,0.0_CMISSRP,Err)
   ENDIF
   CALL cmfe_SolverEquations_BoundaryConditionsCreateFinish(SolverEquations,Err)
 
