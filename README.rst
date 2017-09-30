@@ -39,7 +39,7 @@ Basic example directory structure::
 Example executable
 ==================
 
-The example should create an executable that can be run, how we configure and build the executable will be explained in the the `CMake files` section.  The code required to create the executable is placed into the correspoding language directory inside the *src* directory.  For instance if we are creating a Fortran example with the code written in the file *ZZZZZZZZ.F90* this file belongs in *src/fortran*.
+The example should create an executable that can be run, how we configure and build the executable will be explained in the the `CMake files` section.  The code required to create the executable is placed into the correspoding language directory inside the *src* directory.  For instance if we are creating a Fortran example with the code written in the file *burgers_dynamic.F90* this file belongs in *src/fortran*.
 
 CMake files
 ===========
@@ -57,7 +57,7 @@ Root *CMakeLists.txt* file::
   # Declare the project name and version number and specify the languages
   # used.  We must specify the *C* language irrespective of whether we use 
   # it or not as it is required by MPI.
-  project(XXXXXXXX-Example VERSION X.Y.Z LANGUAGES C Fortran)
+  project(burgers_dynamic-Example VERSION X.Y.Z LANGUAGES C Fortran)
   
   # Get CMake to find the OpenCMISS libraries.  Because the OpenCMISS libraries
   # are not usually available in the system directories we will have to 
@@ -72,7 +72,7 @@ Root *CMakeLists.txt* file::
   # of Python in the CMake files.
   add_subdirectory(src/fortran)
 
-The above *CMakeLists.txt* is what we require for the example *XXXXXXXX* with version number *X.Y.Z* that defines a fortran executable.  Note we haven't yet defined the fortran executable we do that in another *CMakeLists.txt* file inside the *src/fortran* directory.  We could also add other languages here like *C* or *CXX* and we would then add another *add_subdirectory* command with the relative subdirectory as an argument for that language.  To carry on with our Fortran example we now need to define an executable.  We do this in the *src/fortran/CMakeLists.txt* file.
+The above *CMakeLists.txt* is what we require for the example *burgers_dynamic* with version number *X.Y.Z* that defines a fortran executable.  Note we haven't yet defined the fortran executable we do that in another *CMakeLists.txt* file inside the *src/fortran* directory.  We could also add other languages here like *C* or *CXX* and we would then add another *add_subdirectory* command with the relative subdirectory as an argument for that language.  To carry on with our Fortran example we now need to define an executable.  We do this in the *src/fortran/CMakeLists.txt* file.
 
 *src/fortran/CMakeLists.txt* file::
 
@@ -81,7 +81,7 @@ The above *CMakeLists.txt* is what we require for the example *XXXXXXXX* with ve
   # .F90 (using a capital *F* and not a lowercase one) CMake will automatically run the *C*
   # preprocessor on the file for us, saving us from specifying that through other means.
   # This is only necessary if the file requires the the *C* preprocessor.
-  add_executable(XXXXXXXX ZZZZZZZZ.F90)
+  add_executable(burgers_dynamic burgers_dynamic.F90)
   
   # Set the required libraries for this executable.  Here we let CMake know which libraries
   # are required to link the application.  Now because the *opencmisslibs* is known to CMake 
@@ -93,7 +93,7 @@ The above *CMakeLists.txt* is what we require for the example *XXXXXXXX* with ve
   # MPI should also be linked into the application.  Once this issue is resolved we will no longer
   # be required to add this as a link library.  This only applies to examples making use of Iron, 
   # if the example is only using the Zinc library then MPI is not required at all.
-  target_link_libraries(XXXXXXXX PUBLIC opencmisslibs mpi)
+  target_link_libraries(burgers_dynamic PUBLIC opencmisslibs mpi)
 
 
 Inputs
