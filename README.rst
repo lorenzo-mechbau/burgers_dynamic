@@ -1,10 +1,9 @@
-
-
 ===============
 Burgers Dynamic
 ===============
 
 Burgers equation is the simplified version of the Navier-Stokes equation (by dropping the pressure term). This equation can be investigated in one spatial dimension.
+The dynamic form of the Burgers equation is implemented in this example.
 
 
 Building the example
@@ -12,7 +11,6 @@ Building the example
 
 The fortran version of the example can be configured and built with CMake::
 
-  cd ~/opencmiss/build/examples/
   git clone https://github.com/OpenCMISS-Examples/burgers_dynamic.git
   mkdir burgers_dynamic-build
   cd burgers_dynamic-build
@@ -26,23 +24,9 @@ Running the example
 Fortran version::
 
   cd src/fortran/
-  .burgers_dynamic_fortran
+  ./burgers_dynamic_fortran
 
 The results can be visualised by running `visualise.com <./src/fortran/visualise.com>`_ with the `Cmgui visualiser <http://physiomeproject.org/software/opencmiss/cmgui/download>`_.
-
-
-Results
-=======
-
-For the static nonlinear newton iteration problem, with 4 elements on x(0-->1) with
-
-u(x): u(0)=1, u(1)=0
-
-Expected results:
-
-
-Exact solution:
-
 
 
 References
@@ -55,6 +39,7 @@ Prerequisites
 =============
 
 There are no additional input files required for this example as it is self-contained.
+
 
 License
 =======
