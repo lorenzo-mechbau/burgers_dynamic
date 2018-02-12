@@ -1,0 +1,32 @@
+gfx read node burgers_dynamic.part0.exnode;
+gfx read elem burgers_dynamic.part0.exelem;
+
+gfx define faces egroup BurgersRegion
+
+gfx define field velocities component U.1
+
+gfx define field magnitude_velocity magnitude field velocities
+
+gfx create spectrum flow
+gfx modify spectrum flow clear overwrite_colour
+gfx modify spectrum flow linear reverse range 0.0 1.00 extend_above extend_below rainbow colour_range 0 1
+
+gfx create window 1
+gfx modify window 1 layout simple height 800 width 600;
+
+gfx modify g_element BurgersRegion node_points label U glyph arrow_solid general size "0.03*0.03*0.03" centre 0,0,0 font default orientation velocities select_on material default data magnitude_velocity scale_factors "0.1*0.05*0.05" selected_material default_selected spectrum flow
+
+#Read in the sequence of nodal positions.
+for($i=0; $i < 1000; $i=$i+1)
+  {
+	 $filename = sprintf("./TimeStep_%d.part0.exnode", $i);
+	 print "Reading $filename time $i\n";
+	 gfx read node "$filename"
+	 #$filename = sprintf("./LidDriven_%d.jpg", $i);
+	 #gfx print window 1 jpg file "$filename" height 1000 width 1000
+  }
+
+gfx edit scene
+
+gfx timekeeper default play speed 10 skip;
+gfx create time_editor

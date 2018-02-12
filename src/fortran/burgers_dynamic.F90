@@ -134,7 +134,7 @@ PROGRAM burgers_dynamic
   CALL MPI_BCAST(NUMBER_OF_DOMAINS,1,MPI_INTEGER,0,MPI_COMM_WORLD,MPI_IERROR)
 
   !-----------------------------------------------------------------------------------------------------------
-  !COORDINATE SYSTEM
+  ! COORDINATE SYSTEM
   !-----------------------------------------------------------------------------------------------------------
 
   !Start the creation of a new RC coordinate system
@@ -146,7 +146,7 @@ PROGRAM burgers_dynamic
   CALL cmfe_CoordinateSystem_CreateFinish(CoordinateSystem,Err)
 
   !-----------------------------------------------------------------------------------------------------------
-  !REGION
+  ! REGION
   !-----------------------------------------------------------------------------------------------------------
 
   !Start the creation of the region
@@ -159,7 +159,7 @@ PROGRAM burgers_dynamic
   CALL cmfe_Region_CreateFinish(Region,Err)
 
   !-----------------------------------------------------------------------------------------------------------
-  !BASIS
+  ! BASIS
   !-----------------------------------------------------------------------------------------------------------
 
   !Start the creation of a basis
@@ -174,7 +174,7 @@ PROGRAM burgers_dynamic
   CALL cmfe_Basis_CreateFinish(Basis,Err)
 
   !-----------------------------------------------------------------------------------------------------------
-  !MESH
+  ! MESH
   !-----------------------------------------------------------------------------------------------------------
 
   !Start the creation of a generated mesh in the region
@@ -192,7 +192,7 @@ PROGRAM burgers_dynamic
   CALL cmfe_GeneratedMesh_CreateFinish(GeneratedMesh,MeshUserNumber,Mesh,Err)
 
   !-----------------------------------------------------------------------------------------------------------
-  !GEOMETRIC FIELD
+  ! GEOMETRIC FIELD
   !-----------------------------------------------------------------------------------------------------------
 
   !Create a decomposition
@@ -219,7 +219,7 @@ PROGRAM burgers_dynamic
   CALL cmfe_GeneratedMesh_GeometricParametersCalculate(GeneratedMesh,GeometricField,Err)
 
   !-----------------------------------------------------------------------------------------------------------
-  !EQUATIONS SETS
+  ! EQUATIONS SETS
   !-----------------------------------------------------------------------------------------------------------
 
   !Create the equations_set for a dynamic nonlinear burgers equation
@@ -292,7 +292,7 @@ PROGRAM burgers_dynamic
   !CALL cmfe_EquationsSetBoundaryConditionsAnalytic(EquationsSet,Err)
 
   !-----------------------------------------------------------------------------------------------------------
-  !PROBLEM
+  ! PROBLEM
   !-----------------------------------------------------------------------------------------------------------
 
   !Create the problem
@@ -302,23 +302,24 @@ PROGRAM burgers_dynamic
   !Finish the creation of a problem.
   CALL cmfe_Problem_CreateFinish(Problem,Err)
 
+  !-----------------------------------------------------------------------------------------------------------
+  ! CONTROL LOOP
+  !-----------------------------------------------------------------------------------------------------------
+
   !Create the problem control
   CALL cmfe_ControlLoop_Initialise(ControlLoop,Err)
   CALL cmfe_Problem_ControlLoopCreateStart(Problem,Err)
   !Get the control loop
   CALL cmfe_Problem_ControlLoopGet(Problem,CMFE_CONTROL_LOOP_NODE,ControlLoop,Err)
-
   !Set the times
-  CALL cmfe_ControlLoop_TimesSet(ControlLoop,DYNAMIC_SOLVER_START_TIME,DYNAMIC_SOLVER_STOP_TIME, &
-    & DYNAMIC_SOLVER_TIME_INCREMENT,Err)
+  CALL cmfe_ControlLoop_TimesSet(ControlLoop,DYNAMIC_SOLVER_START_TIME,DYNAMIC_SOLVER_STOP_TIME,DYNAMIC_SOLVER_TIME_INCREMENT,Err)
   !Set the output timing
   CALL cmfe_ControlLoop_TimeOutputSet(ControlLoop,DYNAMIC_SOLVER_OUTPUT_FREQUENCY,Err)
-
   !Finish creating the problem control loop
   CALL cmfe_Problem_ControlLoopCreateFinish(Problem,Err)
 
   !-----------------------------------------------------------------------------------------------------------
-  !SOLVER
+  ! SOLVER
   !-----------------------------------------------------------------------------------------------------------
 
   !Start the creation of the problem solvers
@@ -363,7 +364,7 @@ PROGRAM burgers_dynamic
   CALL cmfe_Problem_SolversCreateFinish(Problem,Err)
 
   !-----------------------------------------------------------------------------------------------------------
-  !SOLVER EQUATIONS
+  ! SOLVER EQUATIONS
   !-----------------------------------------------------------------------------------------------------------
 
   !Create the problem solver equations
@@ -382,7 +383,7 @@ PROGRAM burgers_dynamic
   CALL cmfe_Problem_SolverEquationsCreateFinish(Problem,Err)
 
   !-----------------------------------------------------------------------------------------------------------
-  !BOUNDARY CONDITIONS
+  ! BOUNDARY CONDITIONS
   !-----------------------------------------------------------------------------------------------------------
 
   !Set up the boundary conditions
@@ -407,14 +408,14 @@ PROGRAM burgers_dynamic
   CALL cmfe_SolverEquations_BoundaryConditionsCreateFinish(SolverEquations,Err)
 
   !-----------------------------------------------------------------------------------------------------------
-  !SOLVE
+  ! SOLVE
   !-----------------------------------------------------------------------------------------------------------
 
   !Solve the problem
   CALL cmfe_Problem_Solve(Problem,Err)
 
   !-----------------------------------------------------------------------------------------------------------
-  !OUTPUT
+  ! OUTPUT
   !-----------------------------------------------------------------------------------------------------------
 
   !Output Analytic analysis
