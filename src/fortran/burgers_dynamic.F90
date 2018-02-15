@@ -422,7 +422,7 @@ PROGRAM burgers_dynamic
   !Call cmfe_AnalyticAnalysis_Output(DependentField,"DynamicBurgersAnalytics",Err)
 
   !export fields
-  EXPORT_FIELD=.TRUE.
+  EXPORT_FIELD=.FALSE.
   IF(EXPORT_FIELD) THEN
     CALL cmfe_Fields_Initialise(Fields,Err)
     CALL cmfe_Fields_Create(Region,Fields,Err)
