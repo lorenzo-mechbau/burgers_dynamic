@@ -26,7 +26,7 @@ Fortran version::
   cd src/fortran/
   ./burgers_dynamic_fortran
 
-The results can be visualised by running `visualise.com <./src/fortran/visualise.com>`_ with the `Cmgui visualiser <http://physiomeproject.org/software/opencmiss/cmgui/download>`_.
+The results can be visualised by running `visualiseBurgersDynamic.cmgui <./src/fortran/visualiseBurgersDynamic.cmgui>`_ with the `Cmgui visualiser <http://physiomeproject.org/software/opencmiss/cmgui/download>`_.
 
 
 References
