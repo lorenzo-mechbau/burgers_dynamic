@@ -82,8 +82,7 @@ PROGRAM burgers_dynamic
 
   !Generic CMISS variables
   INTEGER(CMISSIntg) :: NumberOfComputationalNodes,ComputationalNodeNumber,BoundaryNodeDomain
-  INTEGER(CMISSIntg) :: EquationsSetIndex
-  INTEGER(CMISSIntg) :: Err
+  INTEGER(CMISSIntg) :: EquationsSetIndex,Err
 
   !Intialise OpenCMISS
   CALL cmfe_Initialise(WorldCoordinateSystem,WorldRegion,Err)
@@ -260,19 +259,18 @@ PROGRAM burgers_dynamic
   !Finish the equations set material field variables
   CALL cmfe_EquationsSet_MaterialsCreateFinish(EquationsSet,Err)
   !Initialise materials field
-  CALL cmfe_Field_ComponentValuesInitialise(MaterialsField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE, &
-    & 1,NU_PARAM,Err)
+  CALL cmfe_Field_ComponentValuesInitialise(MaterialsField,CMFE_FIELD_U_VARIABLE_TYPE,CMFE_FIELD_VALUES_SET_TYPE,1,NU_PARAM,Err)
 
   !-----------------------------------------------------------------------------------------------------------
   ! ANALYTIC FIELD
   !-----------------------------------------------------------------------------------------------------------
 
   !Create the equations set analytic field variables
-  !CALL cmfe_Field_Initialise(AnalyticField,Err)
-  !CALL cmfe_EquationsSet_AnalyticCreateStart(EquationsSet,CMFE_EQUATIONS_SET_BURGERS_EQUATION_ONE_DIM_1, &
-  ! & AnalyticFieldUserNumber,AnalyticField,Err)
+  CALL cmfe_Field_Initialise(AnalyticField,Err)
+  CALL cmfe_EquationsSet_AnalyticCreateStart(EquationsSet,CMFE_EQUATIONS_SET_BURGERS_EQUATION_ONE_DIM_1, &
+   & AnalyticFieldUserNumber,AnalyticField,Err)
   !Finish the equations set analytic field variables
-  !CALL cmfe_EquationsSet_AnalyticCreateFinish(EquationsSet,Err)
+  CALL cmfe_EquationsSet_AnalyticCreateFinish(EquationsSet,Err)
 
   !-----------------------------------------------------------------------------------------------------------
   ! EQUATIONS
@@ -287,9 +285,6 @@ PROGRAM burgers_dynamic
   CALL cmfe_Equations_OutputTypeSet(Equations,CMFE_EQUATIONS_NO_OUTPUT,Err)
   !Finish the equations set equations
   CALL cmfe_EquationsSet_EquationsCreateFinish(EquationsSet,Err)
-
-  !Create the equations set boundary conditions
-  !CALL cmfe_EquationsSetBoundaryConditionsAnalytic(EquationsSet,Err)
 
   !-----------------------------------------------------------------------------------------------------------
   ! PROBLEM
@@ -405,6 +400,8 @@ PROGRAM burgers_dynamic
     CALL cmfe_BoundaryConditions_SetNode(BoundaryConditions,DependentField,CMFE_FIELD_U_VARIABLE_TYPE,1, &
       & CMFE_NO_GLOBAL_DERIV,LastNodeNumber,COMPONENT_NUMBER,CMFE_BOUNDARY_CONDITION_FIXED,0.0_CMISSRP,Err)
   ENDIF
+  CALL cmfe_SolverEquations_BoundaryConditionsAnalytic(SolverEquations,Err)
+  !Finish the creation of the equations set boundary conditions
   CALL cmfe_SolverEquations_BoundaryConditionsCreateFinish(SolverEquations,Err)
 
   !-----------------------------------------------------------------------------------------------------------
@@ -412,14 +409,16 @@ PROGRAM burgers_dynamic
   !-----------------------------------------------------------------------------------------------------------
 
   !Solve the problem
+  WRITE(*,'(A)') "Solving problem..."
   CALL cmfe_Problem_Solve(Problem,Err)
+  WRITE(*,'(A)') "Problem solved!"
 
   !-----------------------------------------------------------------------------------------------------------
   ! OUTPUT
   !-----------------------------------------------------------------------------------------------------------
 
   !Output Analytic analysis
-  !Call cmfe_AnalyticAnalysis_Output(DependentField,"DynamicBurgersAnalytics",Err)
+  Call cmfe_AnalyticAnalysis_Output(DependentField,"DynamicBurgersAnalytics",Err)
 
   !export fields
   EXPORT_FIELD=.FALSE.
