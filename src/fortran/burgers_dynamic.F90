@@ -64,6 +64,7 @@ PROGRAM burgers_dynamic
   !Program types
   TYPE(cmfe_BasisType) :: Basis
   TYPE(cmfe_BoundaryConditionsType) :: BoundaryConditions
+  TYPE(cmfe_ComputationEnvironmentType) :: computationEnvironment
   TYPE(cmfe_CoordinateSystemType) :: CoordinateSystem,WorldCoordinateSystem
   TYPE(cmfe_DecompositionType) :: Decomposition
   TYPE(cmfe_EquationsType) :: Equations
@@ -89,8 +90,9 @@ PROGRAM burgers_dynamic
   CALL cmfe_Initialise(WorldCoordinateSystem,WorldRegion,Err)
 
   !Get the computational nodes information
-  CALL cmfe_ComputationalNumberOfNodesGet(NumberOfComputationalNodes,Err)
-  CALL cmfe_ComputationalNodeNumberGet(ComputationalNodeNumber,Err)
+  CALL cmfe_ComputationEnvironment_Initialise(computationEnvironment,Err)
+  CALL cmfe_ComputationEnvironment_NumberOfWorldNodesGet(computationEnvironment,numberOfComputationalNodes,Err)
+  CALL cmfe_ComputationEnvironment_WorldNodeNumberGet(computationEnvironment,computationalNodeNumber,Err)
 
   !-----------------------------------------------------------------------------------------------------------
   ! PROBLEM CONTROL PANEL
